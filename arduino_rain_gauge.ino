@@ -8,6 +8,7 @@
 
 #include "src/button.hpp"
 #include "src/temp36.hpp"
+#include "src/timer.hpp"
 
 /* pins */
 #define RESET_PIN 6
@@ -20,11 +21,11 @@
 #define GAUGE_STD 0.11
 #define GAUGE_MET 0.2794
 #define BRIGHTNESS 0
+#define TEMP_INTERVAL 10
 
-/* math constants */
-#define MINUTE_MS 60000
-
-using namespace components;
+using components::Button;
+using components::Temp36;
+using utilities::Timer;
 
 /* define variables */  // TODO: change all these to pointers where appropriate
 float rainStd = 0.0;
@@ -42,11 +43,12 @@ Button resetButton = Button(RESET_PIN, 50, HIGH);
 Button rainGauge = Button(RAIN_PIN, 50, HIGH);
 Button holdButton = Button(PAUSE_PIN, 50, HIGH);
 Temp36 tempSensor = Temp36(TEMP_PIN, TEMP_VOLTAGE);
+Timer tempTimer = Timer(TEMP_INTERVAL);
 
 const int rs = 12, en = 11, d4 = 2, d5 = 3, d6 = 4, d7 = 5;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
-// set up the LCD screen
+/* set up the LCD screen */
 void prepLCD() {
     analogWrite(A3, BRIGHTNESS);
     lcd.begin(16, 2);
@@ -54,7 +56,7 @@ void prepLCD() {
     lcd.print(0);
 }
 
-// update the LCD screen if there were any changes
+/* update the LCD screen if there were any changes */
 void handleUpdateLCD() {
     if (!updateFlag) {
         return;
@@ -79,28 +81,28 @@ void handleUpdateLCD() {
     }
 }
 
-// reset rain counters to zero
+/* reset rain counters to zero */
 void handleReset() {
     rainStd = 0;
     rainMet = 0;
     updateLCD();
 }
 
-// increment the rain counters
+/* increment the rain counters */
 void handleRainGauge() {
     rainStd += GAUGE_STD;
     rainMet += GAUGE_MET;
     updateLCD();
 }
 
-// flag the LCD screen to update
+/* flag the LCD screen to update */
 void updateLCD() {
     if (!updateFlag) {
         updateFlag = true;
     }
 }
 
-// don't increment counters on click, display pause message on screen
+/* don't increment counters on click, display pause message on screen */
 void handlePause() {
     if (paused) {
         paused = false;
@@ -110,6 +112,12 @@ void handlePause() {
         lcd.clear();
         lcd.print("PAUSED");
     }
+}
+
+/* take temperature measurement and update LCD */
+void handleMeasureTemp() {
+    tempSensor.measure();
+    updateFlag = true;
 }
 
 /*  Begin the main loop  */
@@ -123,15 +131,9 @@ void loop() {
     if (!paused) {
         if (resetButton.isPressed()) handleReset();
         if (rainGauge.isPressed()) handleRainGauge();
+        if (tempTimer.ready()) handleMeasureTemp();
     }
-
     if (holdButton.isPressed()) handlePause();
-
-    if ((millis() - count) > (MINUTE_MS)) {
-        tempSensor.measure();
-        count = millis();
-        updateFlag = true;
-    }
 
     handleUpdateLCD();
 }

@@ -2,12 +2,18 @@
 
 using namespace components;
 
+/*
+ *  @params:
+ *    int pin: pin number
+ *    float voltage: input voltage
+ *    unsigned long interval: how frequently to measure, in seconds
+ */
 Temp36::Temp36(int pin, float voltage) {
     m_pin = pin;
     m_voltage = voltage;
 }
 
-// calculate the temperature, store values in memory
+/* calculate the temperature, store values in memory */
 void Temp36::measure() {
     analogReadResolution(12);
     int reading = analogRead(m_pin);
@@ -21,9 +27,9 @@ void Temp36::measure() {
     m_tempC = String(m_valC) + "C";
 }
 
-// getter for F, as string
+/* getter for F, as string */
 String Temp36::tempF() { return m_tempF; }
 
-// getter for C, as string
+/* getter for C, as string */
 String Temp36::tempC() { return m_tempC; }
 
