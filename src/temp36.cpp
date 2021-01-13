@@ -9,8 +9,9 @@ Temp36::Temp36(int pin, float voltage) {
 
 // calculate the temperature, store values in memory
 void Temp36::measure() {
+    analogReadResolution(12);
     int reading = analogRead(m_pin);
-    float intermed = reading * m_voltage / 1024;
+    float intermed = reading * m_voltage / 4096;
     float tempC = (intermed - 0.5) * 100;  // 10mv per degree with 500 mV offset
     float tempF = (tempC * 9.0 / 5.0) + 32.0;
 
@@ -20,8 +21,8 @@ void Temp36::measure() {
     m_tempC = String(m_valC) + "C";
 }
 
-// getter for F
-int tempF() { return m_tempF; }
+// temp
+String Temp36::tempF() { return m_tempF; }
 
 // getter for C
-int tempC() { return m_tempC; }
+String Temp36::tempC() { return m_tempC; }

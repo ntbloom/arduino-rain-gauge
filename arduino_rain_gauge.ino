@@ -13,6 +13,7 @@
 #define PAUSE_PIN 8
 #define RAIN_PIN 9
 #define TEMP_PIN A4
+#define TEMP_VOLTAGE 3.274
 
 #define GAUGE_STD 0.11
 #define GAUGE_MET 0.2794
@@ -20,19 +21,21 @@
 
 using namespace components;
 
-/* define variables */
+/* define variables */  // TODO: change all these to pointers where appropriate
 float rain_std = 0.0;
 float rain_met = 0.0;
 bool updateFlag = true;
 String inches, millimeters;
 bool paused = false;
 const char* holdMsg = "PAUSED";
+String tempF;
+String tempC;
 
 /* initialize components */
 Button resetButton = Button(RESET_PIN, 50, HIGH);
 Button rainGauge = Button(RAIN_PIN, 50, HIGH);
 Button hold = Button(PAUSE_PIN, 50, HIGH);
-Temp36 temp = Temp36(TEMP_PIN, 5.0);
+Temp36 temp = Temp36(TEMP_PIN, TEMP_VOLTAGE);
 
 const int rs = 12, en = 11, d4 = 2, d5 = 3, d6 = 4, d7 = 5;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
@@ -47,13 +50,26 @@ void prepLCD() {
 
 // update the LCD screen if there were any changes
 void handleUpdateLCD() {
-    if (updateFlag) {
-        lcd.clear();
+    if (!updateFlag) {
+        return;
+    } else {
         inches = String(rain_std) + "\"";
         millimeters = String(rain_met) + "mm";
+        temp.measure();
+        tempF = temp.tempF();
+        tempC = temp.tempC();
+
+        lcd.clear();
+
         lcd.print(inches);
+        lcd.setCursor(8, 0);
+        lcd.print(tempF);
+
         lcd.setCursor(0, 1);
         lcd.print(millimeters);
+        lcd.setCursor(8, 1);
+        lcd.print(tempC);
+
         updateFlag = false;
     }
 }
