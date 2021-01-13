@@ -21,8 +21,9 @@ void Temp36::measure() {
     m_tempC = String(m_valC) + "C";
 }
 
-// temp
+// getter for F, as string
 String Temp36::tempF() { return m_tempF; }
 
-// getter for C
+// getter for C, as string
 String Temp36::tempC() { return m_tempC; }
+
