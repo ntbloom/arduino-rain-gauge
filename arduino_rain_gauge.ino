@@ -15,39 +15,42 @@
 #define PAUSE_PIN 8
 #define RAIN_PIN 9
 #define TEMP_PIN A4
-#define TEMP_VOLTAGE 3.274
+#define LCD_RS_PIN 12
+#define LCD_EN_PIN 11
+#define LCD_D4_PIN 2
+#define LCD_D5_PIN 3
+#define LCD_D6_PIN 4
+#define LCD_D7_PIN 5
 
 /* hardware-specific constants */
 #define GAUGE_STD 0.11
 #define GAUGE_MET 0.2794
 #define BRIGHTNESS 0
 #define TEMP_INTERVAL 10
+#define TEMP_VOLTAGE 3.274
 
 using components::Button;
 using components::Temp36;
 using utilities::Timer;
 
 /* define variables */  // TODO: change all these to pointers where appropriate
-float rainStd = 0.0;
-float rainMet = 0.0;
 bool updateFlag = true;
-String inches, millimeters;
 bool paused = false;
 const char* holdMsg = "PAUSED";
-String tempF;
-String tempC;
+
+float rainStd = 0.0;
+float rainMet = 0.0;
+String inches, millimeters;
 unsigned long count;
 
 /* initialize components */
+LiquidCrystal lcd(LCD_RS_PIN, LCD_EN_PIN, LCD_D4_PIN, LCD_D5_PIN, LCD_D6_PIN, LCD_D7_PIN);
 Button* resetButton = new Button(RESET_PIN, 50, HIGH);
-Button* rainGauge = new Button(RAIN_PIN, 50, HIGH);
 Button* holdButton = new Button(PAUSE_PIN, 50, HIGH);
-
 Temp36* tempSensor = new Temp36(TEMP_PIN, TEMP_VOLTAGE);
 Timer* tempTimer = new Timer(TEMP_INTERVAL);
 
-const int rs = 12, en = 11, d4 = 2, d5 = 3, d6 = 4, d7 = 5;
-LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+Button* rainGauge = new Button(RAIN_PIN, 50, HIGH);
 
 /* set up the LCD screen */
 void prepLCD() {
@@ -64,19 +67,17 @@ void handleUpdateLCD() {
     } else {
         inches = String(rainStd) + "\"";
         millimeters = String(rainMet) + "mm";
-        tempF = tempSensor->tempF();
-        tempC = tempSensor->tempC();
 
         lcd.clear();
 
         lcd.print(inches);
         lcd.setCursor(8, 0);
-        lcd.print(tempF);
+        lcd.print(tempSensor->tempF());
 
         lcd.setCursor(0, 1);
         lcd.print(millimeters);
         lcd.setCursor(8, 1);
-        lcd.print(tempC);
+        lcd.print(tempSensor->tempC());
 
         updateFlag = false;
     }
