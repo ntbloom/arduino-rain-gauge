@@ -52,7 +52,7 @@ Button* holdButton = new Button(PAUSE_PIN, 50, HIGH);
 Temp36* tempSensor = new Temp36(TEMP_PIN, TEMP_VOLTAGE);
 Timer* tempTimer = new Timer(TEMP_INTERVAL);
 
-Raingauge* rainGauge = new Raingauge(RAIN_PIN, 50, GAUGE_MET);
+Raingauge* rainGauge = new Raingauge(RAIN_PIN, 50, GAUGE_MET, GAUGE_STD);
 
 /* set up the LCD screen */
 void prepLCD() {

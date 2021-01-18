@@ -7,11 +7,15 @@
 namespace components {
 class Raingauge : public Button {
    private:
-    float _mmPerClick;
+    float _mmPerCount, _inchPerCount;
+    unsigned long _count;
+    float _inchTotal();
+    float _mmTotal();
+    unsigned long _getCount();
 
    public:
-    Raingauge(int pin, unsigned long msDelay, float mmPerClick);
-    unsigned long count;
+    Raingauge(int pin, unsigned long msDelay, float mmPerCount, float inchPerCount);
+    void addCount();
     void resetCount();
 };
 };  // namespace components
