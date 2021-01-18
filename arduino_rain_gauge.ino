@@ -43,7 +43,8 @@ Button resetButton = Button(RESET_PIN, 50, HIGH);
 Button rainGauge = Button(RAIN_PIN, 50, HIGH);
 Button holdButton = Button(PAUSE_PIN, 50, HIGH);
 Temp36 tempSensor = Temp36(TEMP_PIN, TEMP_VOLTAGE);
-Timer tempTimer = Timer(TEMP_INTERVAL);
+
+Timer* tempTimer = new Timer(TEMP_INTERVAL);
 
 const int rs = 12, en = 11, d4 = 2, d5 = 3, d6 = 4, d7 = 5;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
@@ -131,7 +132,7 @@ void loop() {
     if (!paused) {
         if (resetButton.isPressed()) handleReset();
         if (rainGauge.isPressed()) handleRainGauge();
-        if (tempTimer.ready()) handleMeasureTemp();
+        if (tempTimer->ready()) handleMeasureTemp();
     }
     if (holdButton.isPressed()) handlePause();
 
