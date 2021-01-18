@@ -23,3 +23,8 @@ float Raingauge::_inchTotal() { return _count * _inchPerCount; }
 /* total rain in mm */
 float Raingauge::_mmTotal() { return _count * _mmPerCount; }
 
+/* total inches, as string */
+const char* Raingauge::inches() { return "1.23\""; }
+
+/* total mm, as string */
+const char* Raingauge::millimeters() { return "9.99mm"; }

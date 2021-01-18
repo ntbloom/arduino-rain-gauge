@@ -40,11 +40,6 @@ bool updateFlag = true;
 bool paused = false;
 const char* holdMsg = "PAUSED";
 
-float rainStd = 0.0;
-float rainMet = 0.0;
-String inches, millimeters;
-unsigned long count;
-
 /* initialize components */
 LiquidCrystal lcd(LCD_RS_PIN, LCD_EN_PIN, LCD_D4_PIN, LCD_D5_PIN, LCD_D6_PIN, LCD_D7_PIN);
 Button* resetButton = new Button(RESET_PIN, 50, HIGH);
@@ -67,17 +62,14 @@ void handleUpdateLCD() {
     if (!updateFlag) {
         return;
     } else {
-        inches = String(rainStd) + "\"";
-        millimeters = String(rainMet) + "mm";
-
         lcd.clear();
 
-        lcd.print(inches);
+        lcd.print(rainGauge->inches());
         lcd.setCursor(8, 0);
         lcd.print(tempSensor->tempF());
 
         lcd.setCursor(0, 1);
-        lcd.print(millimeters);
+        lcd.print(rainGauge->millimeters());
         lcd.setCursor(8, 1);
         lcd.print(tempSensor->tempC());
 
@@ -87,17 +79,12 @@ void handleUpdateLCD() {
 
 /* reset rain counters to zero */
 void handleReset() {
-    rainStd = 0;
-    rainMet = 0;
+    rainGauge->resetCount();
     updateLCD();
 }
 
 /* increment the rain counters */
-void handleRainGauge() {
-    rainStd += GAUGE_STD;
-    rainMet += GAUGE_MET;
-    updateLCD();
-}
+void handleRainGauge() { updateLCD(); }
 
 /* flag the LCD screen to update */
 void updateLCD() {

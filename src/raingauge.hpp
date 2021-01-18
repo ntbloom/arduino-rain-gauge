@@ -12,11 +12,14 @@ class Raingauge : public Button {
     float _inchTotal();
     float _mmTotal();
     unsigned long _getCount();
+    const char *_inches, *_millimeters;
 
    public:
     Raingauge(int pin, unsigned long msDelay, float mmPerCount, float inchPerCount);
     void addCount();
     void resetCount();
+    const char* inches();
+    const char* millimeters();
 };
 };  // namespace components
 
