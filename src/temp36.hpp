@@ -7,10 +7,10 @@
 namespace components {
 class Temp36 {
    private:
-    int m_pin;
-    float m_voltage;
-    int m_valF, m_valC;
-    String m_tempF, m_tempC;
+    int _pin;
+    float _voltage;
+    int _valF, _valC;
+    String _tempF, _tempC;
 
    public:
     Temp36(int pin, float voltage);

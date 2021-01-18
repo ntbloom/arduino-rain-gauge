@@ -3,26 +3,26 @@
 using namespace components;
 
 Button::Button(int pin, unsigned long msDelay, bool high) {
-    m_pin = pin;
-    m_msDelay = msDelay;
-    m_high = high;
+    _pin = pin;
+    _msDelay = msDelay;
+    _high = high;
 
-    m_lastDebounce = 0;
-    pinMode(m_pin, INPUT);
+    _lastDebounce = 0;
+    pinMode(_pin, INPUT);
 }
 
 /* is the button pressed and valid (not bouncing) */
 bool Button::isPressed() {
     // check if pin fired
-    m_read = digitalRead(m_pin);
-    switch (m_high) {
+    _read = digitalRead(_pin);
+    switch (_high) {
         case HIGH:
-            if (!m_read) {
+            if (!_read) {
                 return false;
             }
             break;
         case LOW:
-            if (m_read) {
+            if (_read) {
                 return false;
             }
             break;
@@ -30,9 +30,9 @@ bool Button::isPressed() {
 
     // debounce it
     bool b = false;
-    if ((millis() - m_lastDebounce) > m_msDelay) {
+    if ((millis() - _lastDebounce) > _msDelay) {
         b = true;
     }
-    m_lastDebounce = millis();
+    _lastDebounce = millis();
     return b;
 }

@@ -7,11 +7,11 @@
 namespace components {
 class Button {
    private:
-    int m_pin;
-    unsigned long m_msDelay;
-    unsigned long m_lastDebounce;
-    bool m_high;
-    bool m_read = LOW;
+    int _pin;
+    unsigned long _msDelay;
+    unsigned long _lastDebounce;
+    bool _high;
+    bool _read = LOW;
 
    public:
     Button(int pin, unsigned long msDelay, bool high);

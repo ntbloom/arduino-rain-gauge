@@ -6,7 +6,7 @@
 namespace utilities {
 class Timer {
    private:
-    unsigned long m_interval, m_count;
+    unsigned long _interval, _count;
 
    public:
     Timer(unsigned long interval);
