@@ -7,6 +7,7 @@
 #include <LiquidCrystal.h>
 
 #include "src/button.hpp"
+#include "src/raingauge.hpp"
 #include "src/temp36.hpp"
 #include "src/timer.hpp"
 
@@ -30,6 +31,7 @@
 #define TEMP_VOLTAGE 3.274
 
 using components::Button;
+using components::Raingauge;
 using components::Temp36;
 using utilities::Timer;
 
@@ -50,7 +52,7 @@ Button* holdButton = new Button(PAUSE_PIN, 50, HIGH);
 Temp36* tempSensor = new Temp36(TEMP_PIN, TEMP_VOLTAGE);
 Timer* tempTimer = new Timer(TEMP_INTERVAL);
 
-Button* rainGauge = new Button(RAIN_PIN, 50, HIGH);
+Raingauge* rainGauge = new Raingauge(RAIN_PIN, 50, GAUGE_MET);
 
 /* set up the LCD screen */
 void prepLCD() {
