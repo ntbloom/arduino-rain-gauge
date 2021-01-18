@@ -39,9 +39,9 @@ String tempC;
 unsigned long count;
 
 /* initialize components */
-Button resetButton = Button(RESET_PIN, 50, HIGH);
-Button rainGauge = Button(RAIN_PIN, 50, HIGH);
-Button holdButton = Button(PAUSE_PIN, 50, HIGH);
+Button* resetButton = new Button(RESET_PIN, 50, HIGH);
+Button* rainGauge = new Button(RAIN_PIN, 50, HIGH);
+Button* holdButton = new Button(PAUSE_PIN, 50, HIGH);
 
 Temp36* tempSensor = new Temp36(TEMP_PIN, TEMP_VOLTAGE);
 Timer* tempTimer = new Timer(TEMP_INTERVAL);
@@ -130,11 +130,11 @@ void setup() {
 
 void loop() {
     if (!paused) {
-        if (resetButton.isPressed()) handleReset();
-        if (rainGauge.isPressed()) handleRainGauge();
+        if (resetButton->isPressed()) handleReset();
+        if (rainGauge->isPressed()) handleRainGauge();
         if (tempTimer->ready()) handleMeasureTemp();
     }
-    if (holdButton.isPressed()) handlePause();
+    if (holdButton->isPressed()) handlePause();
 
     handleUpdateLCD();
 }
