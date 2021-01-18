@@ -11,7 +11,7 @@
 #include "src/temp36.hpp"
 #include "src/timer.hpp"
 
-/* pins */
+/* pins for the physical setup*/
 #define RESET_PIN 6
 #define PAUSE_PIN 8
 #define RAIN_PIN 9
@@ -35,7 +35,7 @@ using components::Raingauge;
 using components::Temp36;
 using utilities::Timer;
 
-/* define variables */  // TODO: change all these to pointers where appropriate
+/* define variables */
 bool updateFlag = true;
 bool paused = false;
 const char* holdMsg = "PAUSED";
@@ -108,11 +108,10 @@ void handlePause() {
 /* take temperature measurement and update LCD */
 void handleMeasureTemp() {
     tempSensor->measure();
-    updateFlag = true;
+    updateLCD();
 }
 
-/*  Begin the main loop  */
-
+/*  Begin setup and main loop */
 void setup() {
     prepLCD();
     tempSensor->measure();
