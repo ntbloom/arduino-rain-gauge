@@ -42,8 +42,8 @@ unsigned long count;
 Button resetButton = Button(RESET_PIN, 50, HIGH);
 Button rainGauge = Button(RAIN_PIN, 50, HIGH);
 Button holdButton = Button(PAUSE_PIN, 50, HIGH);
-Temp36 tempSensor = Temp36(TEMP_PIN, TEMP_VOLTAGE);
 
+Temp36* tempSensor = new Temp36(TEMP_PIN, TEMP_VOLTAGE);
 Timer* tempTimer = new Timer(TEMP_INTERVAL);
 
 const int rs = 12, en = 11, d4 = 2, d5 = 3, d6 = 4, d7 = 5;
@@ -64,8 +64,8 @@ void handleUpdateLCD() {
     } else {
         inches = String(rainStd) + "\"";
         millimeters = String(rainMet) + "mm";
-        tempF = tempSensor.tempF();
-        tempC = tempSensor.tempC();
+        tempF = tempSensor->tempF();
+        tempC = tempSensor->tempC();
 
         lcd.clear();
 
@@ -117,7 +117,7 @@ void handlePause() {
 
 /* take temperature measurement and update LCD */
 void handleMeasureTemp() {
-    tempSensor.measure();
+    tempSensor->measure();
     updateFlag = true;
 }
 
@@ -125,7 +125,7 @@ void handleMeasureTemp() {
 
 void setup() {
     prepLCD();
-    tempSensor.measure();
+    tempSensor->measure();
 }
 
 void loop() {
