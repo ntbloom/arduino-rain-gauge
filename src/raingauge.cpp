@@ -7,30 +7,28 @@ Raingauge::Raingauge(int pin, unsigned long msDelay, float mmPerCount, float inc
     _count = 0;
     _mmPerCount = mmPerCount;
     _inchPerCount = inchPerCount;
-    //_mmTotal = 0.0;
-    //_inchTotal = 0.0;
-
-    _inchTotal = _count * _inchPerCount;
-    _mmTotal = _count * _mmPerCount;
-
-    _inches = String(_inchTotal, 2) + "\"";
-    _millimeters = String(_mmTotal, 2) + "mm";
+    _updateValues();
 }
 
 /* add a click to the counter */
 void Raingauge::addCount() {
     _count++;
+    _updateValues();
+}
+
+void Raingauge::_updateValues() {
     _inchTotal = _count * _inchPerCount;
     _mmTotal = _count * _mmPerCount;
+
     _inches = String(_inchTotal, 2) + "\"";
-    _millimeters = String(_mmTotal, 2) + "mm";
+    _millimeters = String(_mmTotal, 1) + "mm";
 }
 
 /* reset the counters */
-void Raingauge::resetCount() { _count = 0; }
-
-/* how many counts are there? */
-unsigned long Raingauge::_getCount() { return _count; }
+void Raingauge::resetCount() {
+    _count = 0;
+    _updateValues();
+}
 
 /* total inches, as string */
 String Raingauge::inches() { return _inches; }

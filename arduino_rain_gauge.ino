@@ -26,7 +26,6 @@
 /* hardware-specific constants */
 #define GAUGE_STD 0.11
 #define GAUGE_MET 0.2794
-#define BRIGHTNESS 0
 #define TEMP_INTERVAL 10
 #define TEMP_VOLTAGE 3.274
 
@@ -51,7 +50,7 @@ Raingauge* rainGauge = new Raingauge(RAIN_PIN, 50, GAUGE_MET, GAUGE_STD);
 
 /* set up the LCD screen */
 void prepLCD() {
-    analogWrite(A3, BRIGHTNESS);
+    analogWrite(A3, 0);
     lcd.begin(16, 2);
     lcd.clear();
     lcd.print(0);

@@ -11,8 +11,8 @@ class Raingauge : public Button {
     unsigned long _count;
     float _inchTotal;
     float _mmTotal;
-    unsigned long _getCount();
     String _inches, _millimeters;
+    void _updateValues();
 
    public:
     Raingauge(int pin, unsigned long msDelay, float mmPerCount, float inchPerCount);
