@@ -84,7 +84,10 @@ void handleReset() {
 }
 
 /* increment the rain counters */
-void handleRainGauge() { updateLCD(); }
+void handleRainGauge() {
+    rainGauge->addCount();
+    updateLCD();
+}
 
 /* flag the LCD screen to update */
 void updateLCD() {
