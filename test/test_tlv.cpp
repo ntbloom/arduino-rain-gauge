@@ -10,4 +10,6 @@ void test_one_plus_one() {
     OK;
 }
 
-int main() { test_one_plus_one(); }
+int main() {
+    test_one_plus_one();
+}

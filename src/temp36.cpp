@@ -28,8 +28,12 @@ void Temp36::measure() {
 }
 
 /* getter for F, as string */
-String Temp36::tempF() { return _tempF; }
+String Temp36::tempF() {
+    return _tempF;
+}
 
 /* getter for C, as string */
-String Temp36::tempC() { return _tempC; }
+String Temp36::tempC() {
+    return _tempC;
+}
 

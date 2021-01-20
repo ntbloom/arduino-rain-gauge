@@ -6,7 +6,9 @@ using namespace utilities;
  * @params:
  *    unsigned long count: how long to wait, in seconds
  */
-Timer::Timer(unsigned long interval) { _interval = interval; }
+Timer::Timer(unsigned long interval) {
+    _interval = interval;
+}
 
 /* has that amount of time passed? */
 bool Timer::ready() {

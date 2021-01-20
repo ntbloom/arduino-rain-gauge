@@ -31,7 +31,11 @@ void Raingauge::resetCount() {
 }
 
 /* total inches, as string */
-String Raingauge::inches() { return _inches; }
+String Raingauge::inches() {
+    return _inches;
+}
 
 /* total mm, as string */
-String Raingauge::millimeters() { return _millimeters; }
+String Raingauge::millimeters() {
+    return _millimeters;
+}
