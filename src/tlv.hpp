@@ -6,11 +6,11 @@ namespace tlv {
 class TLV {
    private:
     uint8_t _tag, _length;
-    uint8_t *_value, *_payload;
+    uint8_t *_payload, *_value;
 
    public:
-    TLV(uint8_t tag, uint8_t length, int val);
-    TLV(uint8_t tag, uint8_t length, float val);
+    TLV(uint8_t tag, uint8_t length, int ivalue);
+    TLV(uint8_t tag, uint8_t length, float fvalue);
     uint8_t* encode();
 };
 }  // namespace tlv

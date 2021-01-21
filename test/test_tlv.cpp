@@ -9,7 +9,7 @@ using namespace std;
 using tlv::TLV;
 
 void assert_equal_arrays(int len, uint8_t one[], uint8_t two[]) {
-    for (int i = 0; i < len; i++) {
+    for (int i = 0; i < len - 1; i++) {
         assert(one[i] == two[i]);
     }
 }
@@ -22,8 +22,7 @@ void test_one_plus_one() {
 
 /* test basic TLV data */
 void test_simple_tlv_packet() {
-    uint8_t value[] = {1};
-    TLV* tlv = new TLV(1, 1, value);
+    TLV* tlv = new TLV(1, 1, 1);
     uint8_t expected[] = {01, 01, 01};
     uint8_t* actual = tlv->encode();
     assert_equal_arrays(3, expected, actual);

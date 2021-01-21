@@ -18,7 +18,7 @@ build:
 upload:
 	$(CLI) upload -p $(PORT) --fqbn $(FQBN) $(INO) 
 
-test_tlv: test/test_tlv.cpp
+test_tlv: test/test_tlv.cpp src/tlv.cpp
 	@$(CPP) $(CPPFLAGS) -o build/$@ $^
 	@./build/$@
 	@rm ./build/$@
