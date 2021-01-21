@@ -2,9 +2,9 @@
 
 using namespace tlv;
 
-TLV::TLV(unsigned char tag, unsigned char length, unsigned char value) {
+TLV::TLV(unsigned char tag, unsigned char value) {
     _tag = tag;
-    _length = length;
+    _length = sizeof(value);
     _payload = new unsigned char[3];
     _payload[0] = tag;
     _payload[1] = 1;

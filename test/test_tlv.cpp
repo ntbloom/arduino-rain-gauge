@@ -28,8 +28,8 @@ void test_tlv_rain_packet() {
     t = 0;
     l = 1;
     v = 1;
-    TLV* tlv = new TLV(t, l, v);
-    unsigned char expected[] = {0x00, 0x01, 0x01};
+    TLV* tlv = new TLV(t, v);
+    unsigned char expected[] = {t, l, v};
     unsigned char* actual = tlv->encode();
     assert_equal_arrays(3, expected, actual);
     OK;
@@ -41,7 +41,7 @@ void test_tlv_soft_reset_packet() {
     t = 2;
     l = 1;
     v = 1;
-    TLV* tlv = new TLV(t, l, v);
+    TLV* tlv = new TLV(t, v);
     unsigned char expected[] = {t, l, v};
     unsigned char* actual = tlv->encode();
     assert_equal_arrays(3, expected, actual);
@@ -54,7 +54,7 @@ void test_tlv_hard_reset_packet() {
     t = 3;
     l = 1;
     v = 1;
-    TLV* tlv = new TLV(t, l, v);
+    TLV* tlv = new TLV(t, v);
     unsigned char expected[] = {t, l, v};
     unsigned char* actual = tlv->encode();
     assert_equal_arrays(3, expected, actual);

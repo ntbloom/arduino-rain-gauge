@@ -8,8 +8,8 @@ class TLV {
     unsigned char* _payload;
 
    public:
-    TLV(unsigned char tag, unsigned char length, unsigned char value);
-    TLV(unsigned char tag, unsigned char length, float value);
+    TLV(unsigned char tag, unsigned char value);
+    TLV(unsigned char tag, float value);
     unsigned char* encode();
 };
 }  // namespace tlv
