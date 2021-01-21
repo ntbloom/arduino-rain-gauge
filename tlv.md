@@ -2,16 +2,16 @@
 
 ## TLV packets sent by arduino
 
-| DESCRIPTION      | TAG | LENGTH | VALUE                       |
-| ---------------- | --- | ------ | --------------------------- |
-| reserved         | 0   | n/a    | n/a                         |
-| rain event       | 1   | 1      | always 1                    |
-| temperature      | 2   | 4      | 32-bit float for temp, C    |
-| soft reset event | 3   | 1      | always 1                    |
-| hard reset event | 4   | 1      | always 1, sent after reboot |
-| reserved         | 5   | n/a    | n/a                         |
-| reserved         | 6   | n/a    | n/a                         |
-| reserved         | 7   | n/a    | n/a                         |
+| DESCRIPTION      | TAG | LENGTH | VALUE                | VALUE TYPE    |
+| ---------------- | --- | ------ | -------------------- | ------------- |
+| rain event       | 0   | 1      | 1                    | unsigned char |
+| temperature      | 1   | 4      | temp, C              | float         |
+| soft reset event | 2   | 1      | 1                    | unsigned char |
+| hard reset event | 3   | 1      | 1, sent after reboot | unsigned char |
+| reserved         | 4   | n/a    | n/a                  | n/a           |
+| reserved         | 5   | n/a    | n/a                  | n/a           |
+| reserved         | 6   | n/a    | n/a                  | n/a           |
+| reserved         | 7   | n/a    | n/a                  | n/a           |
 
 ## TLV packets received by arduino
 
