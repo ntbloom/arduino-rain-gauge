@@ -9,7 +9,8 @@ class TLV {
     uint8_t *_value, *_payload;
 
    public:
-    TLV(uint8_t tag, uint8_t length, uint8_t value[]);
+    TLV(uint8_t tag, uint8_t length, int val);
+    TLV(uint8_t tag, uint8_t length, float val);
     uint8_t* encode();
 };
 }  // namespace tlv
