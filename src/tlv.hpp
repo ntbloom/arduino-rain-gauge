@@ -12,6 +12,7 @@ class TLV {
    public:
     TLV(unsigned char tag, unsigned char value);
     TLV(unsigned char tag, int value);
+    ~TLV();
     unsigned char* encode();
 };
 }  // namespace tlv

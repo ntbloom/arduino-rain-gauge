@@ -6,6 +6,16 @@ CPPFLAGS += -Wextra
 CPPFLAGS += -pedantic
 CPPFLAGS += -Werror
 
+VFLAGS	= --quiet
+VFLAGS += -v
+VFLAGS += --tool=memcheck
+VFLAGS += --leak-check=full
+VFLAGS += --error-exitcode=1
+VFLAGS += --show-reachable=yes
+VFLAGS += --show-possibly-lost=yes
+VFLAGS += --undef-value-errors=yes
+VFLAGS += --track-origins=yes
+
 CLI  = arduino-cli
 FQBN = arduino:samd:mkr1000
 PORT = /dev/ttyACM0
@@ -21,8 +31,13 @@ upload:
 test_tlv: test/test_tlv.cpp src/tlv.cpp
 	@$(CPP) $(CPPFLAGS) -o build/$@ $^
 	@./build/$@
-	@rm ./build/$@
+
+memcheck: test_tlv
+	@valgrind $(VFLAGS) build/$^
 
 test: test_tlv
+
+clean: 
+	rm ./build/*
 
 all: build upload

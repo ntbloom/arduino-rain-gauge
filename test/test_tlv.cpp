@@ -32,6 +32,7 @@ void test_tlv_rain_packet() {
     unsigned char expected[] = {t, l, v};
     unsigned char* actual = tlv->encode();
     assert_equal_arrays(3, expected, actual);
+    delete tlv;
     OK;
 }
 
@@ -45,6 +46,7 @@ void test_tlv_soft_reset_packet() {
     unsigned char expected[] = {t, l, v};
     unsigned char* actual = tlv->encode();
     assert_equal_arrays(3, expected, actual);
+    delete tlv;
     OK;
 }
 
@@ -58,6 +60,7 @@ void test_tlv_hard_reset_packet() {
     unsigned char expected[] = {t, l, v};
     unsigned char* actual = tlv->encode();
     assert_equal_arrays(3, expected, actual);
+    delete tlv;
     OK;
 }
 
@@ -72,6 +75,7 @@ void test_tlv_temperature_packet() {
     unsigned char expected[] = {t, l, 0, 0, 1, 8};
     unsigned char* actual = tlv->encode();
     assert_equal_arrays(6, expected, actual);
+    delete tlv;
     OK;
 }
 

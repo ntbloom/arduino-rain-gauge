@@ -1,5 +1,7 @@
 #include "tlv.hpp"
 
+#include <iostream>
+
 using namespace tlv;
 
 /* for basic packets with static values */
@@ -34,4 +36,8 @@ TLV::TLV(unsigned char tag, int value) {
 /* encode payload as TLV byte array */
 unsigned char* TLV::encode() {
     return _payload;
+}
+
+TLV::~TLV() {
+    delete[] _payload;
 }
