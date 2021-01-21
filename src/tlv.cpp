@@ -6,25 +6,17 @@ using namespace tlv;
 
 /* for basic packets with static values */
 TLV::TLV(unsigned char tag, unsigned char value) {
-    _tag = tag;
-    _length = 1;
-    _value_c = value;
-
     _payload = new unsigned char[3];
     _payload[0] = tag;
-    _payload[1] = _length;
-    _payload[2] = _value_c;
+    _payload[1] = 1;
+    _payload[2] = value;
 }
 
-/* for temp data, in C */
+/* for temp data, in celsius */
 TLV::TLV(unsigned char tag, int value) {
-    _tag = tag;
-    _length = sizeof(value);
-    _value_i = value;
-
     _payload = new unsigned char[6];
     _payload[0] = tag;
-    _payload[1] = _length;
+    _payload[1] = 4;
 
     /* parse the temp data 4-bits at a time */
     _payload[2] = (value >> 12) & 15;
