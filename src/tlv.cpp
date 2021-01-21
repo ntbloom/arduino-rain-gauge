@@ -2,7 +2,7 @@
 
 using namespace tlv;
 
-TLV::TLV(uint8_t tag, uint8_t length, int value) {
+TLV::TLV(unsigned char tag, unsigned char length, int value) {
     _tag = tag;
     _length = length;
     // TODO: make this work
@@ -10,7 +10,7 @@ TLV::TLV(uint8_t tag, uint8_t length, int value) {
 }
 
 /* encode payload as TLV byte array */
-uint8_t* TLV::encode() {
+unsigned char* TLV::encode() {
     /*
       _payload[2 + _length];
       _payload[0] = _tag;
@@ -21,7 +21,7 @@ uint8_t* TLV::encode() {
       }
       return _payload;
       */
-    uint8_t* result = new uint8_t[3];
+    unsigned char* result = new unsigned char[3];
     for (int i = 0; i < 2; i++) {
         result[i] = 01;
     }
