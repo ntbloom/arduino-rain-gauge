@@ -22,7 +22,7 @@ void test_one_plus_one() {
     OK;
 }
 
-/* test TLV packet for rain event */
+/* rain event */
 void test_tlv_rain_packet() {
     unsigned char t, l, v;
     t = 0;
@@ -36,7 +36,7 @@ void test_tlv_rain_packet() {
     OK;
 }
 
-/* test TLV packet for soft-reset event */
+/* soft-reset event */
 void test_tlv_soft_reset_packet() {
     unsigned char t, l, v;
     t = 2;
@@ -50,7 +50,7 @@ void test_tlv_soft_reset_packet() {
     OK;
 }
 
-/* test TLV packet for hard-reset event */
+/* hard-reset event */
 void test_tlv_hard_reset_packet() {
     unsigned char t, l, v;
     t = 3;
@@ -64,8 +64,8 @@ void test_tlv_hard_reset_packet() {
     OK;
 }
 
-/* test TLV packet for temperature measurement */
-void test_tlv_temperature_packet() {
+/* happy path for temperature measurement */
+void test_tlv_positive_temperature_packet() {
     unsigned char t, l;
     int v;
     t = 1;
@@ -79,6 +79,21 @@ void test_tlv_temperature_packet() {
     OK;
 }
 
+/* negative temperature values */
+void test_tlv_negative_temperature_packet() {
+    unsigned char t, l;
+    int v;
+    t = 1;
+    l = 4;
+    v = -24;  // 24C, or 75F
+    TLV* tlv = new TLV(t, v);
+    unsigned char expected[] = {t, l, 8, 0, 1, 8};
+    unsigned char* actual = tlv->encode();
+    assert_equal_arrays(6, expected, actual);
+    delete tlv;
+    OK;
+}
+
 int main() {
     assert(sizeof(float) == 4);  // value on arduino
     assert(sizeof(int) == 4);    // value on arduino
@@ -86,5 +101,6 @@ int main() {
     test_tlv_rain_packet();
     test_tlv_soft_reset_packet();
     test_tlv_hard_reset_packet();
-    test_tlv_temperature_packet();
+    test_tlv_positive_temperature_packet();
+    test_tlv_negative_temperature_packet();
 }
