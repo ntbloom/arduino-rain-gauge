@@ -61,6 +61,20 @@ void test_tlv_hard_reset_packet() {
     OK;
 }
 
+/* test TLV packet for temperature measurement */
+void test_tlv_temperature_packet() {
+    unsigned char t, l;
+    int v;
+    t = 1;
+    l = 4;
+    v = 24;  // 24C, or 75F
+    TLV* tlv = new TLV(t, v);
+    unsigned char expected[] = {t, l, 0, 0, 1, 8};
+    unsigned char* actual = tlv->encode();
+    assert_equal_arrays(6, expected, actual);
+    OK;
+}
+
 int main() {
     assert(sizeof(float) == 4);  // value on arduino
     assert(sizeof(int) == 4);    // value on arduino
@@ -68,4 +82,5 @@ int main() {
     test_tlv_rain_packet();
     test_tlv_soft_reset_packet();
     test_tlv_hard_reset_packet();
+    test_tlv_temperature_packet();
 }

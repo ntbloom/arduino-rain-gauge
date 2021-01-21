@@ -1,11 +1,13 @@
-# tlv schema -- all values as uint8_t
+# tlv schema
+
+tag and length are `unsigned char` 
 
 ## TLV packets sent by arduino
 
 | DESCRIPTION      | TAG | LENGTH | VALUE                | VALUE TYPE    |
 | ---------------- | --- | ------ | -------------------- | ------------- |
 | rain event       | 0   | 1      | 1                    | unsigned char |
-| temperature      | 1   | 4      | temp, C              | float         |
+| temperature      | 1   | 4      | temp, C              | int           |
 | soft reset event | 2   | 1      | 1                    | unsigned char |
 | hard reset event | 3   | 1      | 1, sent after reboot | unsigned char |
 | reserved         | 4   | n/a    | n/a                  | n/a           |
