@@ -1,0 +1,4 @@
+# Copy this file into /lib/udev/rules.d/
+# get `idVendor` and `idProduct` values by running `udevadm info --name=/dev/ttyACM<number> --attribute-walk`, where <number> is the ACM number currently being used
+# reload with `sudo udevadm --control --reload` and `sudo udevadm trigger` and confirm board is available at `/dev/<SYMLINK>`
+SUBSYSTEMS=="usb", KERNEL=="ttyACM[0-9]*", ATTRS{idVendor}=="2341", ATTRS{idProduct}=="804e", SYMLINK+="ARD1", TAG+="systemd", GROUP="dialout", MODE:="0666"

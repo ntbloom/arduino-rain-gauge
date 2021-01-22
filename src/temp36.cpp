@@ -40,5 +40,6 @@ void Temp36::sendTemp() {
     TLV* tlv = new TLV(_tag, _valC);
     payload = tlv->encode();
     Serial.write(payload[0]);
+    Serial.println(1);
     delete tlv;
 }
