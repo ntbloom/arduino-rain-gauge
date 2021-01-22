@@ -1,6 +1,7 @@
 #include "temp36.hpp"
 
 using namespace components;
+using tlv::TLV;
 
 Temp36::Temp36(int pin, float voltage) {
     _pin = pin;
@@ -34,9 +35,9 @@ String Temp36::tempC() {
 }
 
 /* send message over serial port */
-void sendTemp() {
+void Temp36::sendTemp() {
     unsigned char* payload;
-    TLV* tlv = new TLV(_tag, _length, _valC);
+    TLV* tlv = new TLV(_tag, _valC);
     payload = tlv->encode();
     Serial.write(payload[0]);
     delete tlv;

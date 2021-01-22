@@ -2,7 +2,7 @@
 #define TEMP36_HPP
 
 #include "Arduino.h"
-#include "src/tlv.hpp"
+#include "tlv.hpp"
 
 /* component for TMP36 analog temperature sensors */
 namespace components {
