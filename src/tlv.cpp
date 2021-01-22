@@ -1,7 +1,5 @@
 #include "tlv.hpp"
 
-#include <iostream>
-
 using namespace tlv;
 
 /* for basic packets with static values */

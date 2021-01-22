@@ -17,8 +17,9 @@ void assert_equal_arrays(int len, unsigned char one[], unsigned char two[]) {
 }
 
 /* dummy test */
-void test_one_plus_one() {
-    assert(1 + 1 == 2);
+void test_variable_length() {
+    assert(sizeof(float) == 4);  // value on arduino
+    assert(sizeof(int) == 4);    // value on arduino
     OK;
 }
 
@@ -79,15 +80,30 @@ void test_tlv_positive_temperature_packet() {
     OK;
 }
 
+/* zero temperature value */
+void test_tlv_zero_temperature_packet() {
+    unsigned char t, l;
+    int v;
+    t = 1;
+    l = 4;
+    v = 0;  // 0C or 32F
+    TLV* tlv = new TLV(t, v);
+    unsigned char expected[] = {t, l, 0, 0, 0, 0};
+    unsigned char* actual = tlv->encode();
+    assert_equal_arrays(6, expected, actual);
+    delete tlv;
+    OK;
+}
+
 /* negative temperature values */
 void test_tlv_negative_temperature_packet() {
     unsigned char t, l;
     int v;
     t = 1;
     l = 4;
-    v = -24;  // 24C, or 75F
+    v = -24;  // -24C, or -11F
     TLV* tlv = new TLV(t, v);
-    unsigned char expected[] = {t, l, 8, 0, 1, 8};
+    unsigned char expected[] = {t, l, 15, 15, 14, 7};
     unsigned char* actual = tlv->encode();
     assert_equal_arrays(6, expected, actual);
     delete tlv;
@@ -95,12 +111,11 @@ void test_tlv_negative_temperature_packet() {
 }
 
 int main() {
-    assert(sizeof(float) == 4);  // value on arduino
-    assert(sizeof(int) == 4);    // value on arduino
-    test_one_plus_one();
+    test_variable_length();
     test_tlv_rain_packet();
     test_tlv_soft_reset_packet();
     test_tlv_hard_reset_packet();
     test_tlv_positive_temperature_packet();
+    test_tlv_zero_temperature_packet();
     test_tlv_negative_temperature_packet();
 }
