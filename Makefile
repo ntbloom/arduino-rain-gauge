@@ -38,6 +38,6 @@ memcheck: test_tlv
 test: test_tlv
 
 clean: 
-	rm ./build/*
+	$(CLI) cache clean
 
 all: build upload

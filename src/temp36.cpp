@@ -2,15 +2,11 @@
 
 using namespace components;
 
-/*
- *  @params:
- *    int pin: pin number
- *    float voltage: input voltage
- *    unsigned long interval: how frequently to measure, in seconds
- */
 Temp36::Temp36(int pin, float voltage) {
     _pin = pin;
     _voltage = voltage;
+    _tag = 1;
+    _length = 4;
 }
 
 /* calculate the temperature, store values in memory */
@@ -37,3 +33,11 @@ String Temp36::tempC() {
     return _tempC;
 }
 
+/* send message over serial port */
+void sendTemp() {
+    unsigned char* payload;
+    TLV* tlv = new TLV(_tag, _length, _valC);
+    payload = tlv->encode();
+    Serial.write(payload[0]);
+    delete tlv;
+}

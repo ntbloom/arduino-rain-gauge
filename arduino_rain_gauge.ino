@@ -110,6 +110,7 @@ void handlePause() {
 /* take temperature measurement and update LCD */
 void handleMeasureTemp() {
     tempSensor->measure();
+    tempSensor->sendTemp();
     updateLCD();
 }
 
