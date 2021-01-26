@@ -5,10 +5,9 @@
 #include "tlv.hpp"
 
 namespace tlv {
-class SerialTLV : public TLV {
+class SerialTLV {
+   private:
    public:
-    SerialTLV(unsigned char tag, unsigned char value);
-    SerialTLV(unsigned char tag, int value);
     void hex();
 };
 };  // namespace tlv
