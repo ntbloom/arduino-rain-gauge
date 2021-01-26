@@ -3,7 +3,7 @@
 
 namespace tlv {
 class TLV {
-   private:
+   protected:
     unsigned char* _payload;
 
    public:

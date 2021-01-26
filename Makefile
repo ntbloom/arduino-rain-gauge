@@ -29,17 +29,17 @@ build:
 upload:
 	$(CLI) upload -p $(PORT) --fqbn $(FQBN) $(INO) 
 
-test_tlv: test/test_tlv.cpp src/tlv.cpp
-	@$(CPP) $(CPPFLAGS) -o $(BINDIR)$@ $^
-	@./$(BINDIR)$@
+test_tlv.out: test/test_tlv.cpp src/tlv.cpp
+	@$(CPP) $(CPPFLAGS) -o $(BINDIR)/$@ $^
+	@./$(BINDIR)/$@
 
-memcheck: test_tlv
-	@valgrind $(VFLAGS) $(BINDIR)$^
+memcheck: test_tlv.out
+	@valgrind $(VFLAGS) $(BINDIR)/$^
 
-test: test_tlv
+test: test_tlv.out
 
 clean: 
 	$(CLI) cache clean
-	rm $(BINDIR)/test_tlv
+	rm $(BINDIR)/*.out
 
 all: build upload
