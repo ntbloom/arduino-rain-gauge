@@ -2,7 +2,7 @@
 
 using namespace tlv;
 
-/* for basic packets with static values */
+/* make a TLV packet for simple messages */
 TLV::TLV(unsigned char tag, unsigned char value) {
     _payload = new unsigned char[3];
     _payload[0] = tag;
@@ -10,13 +10,13 @@ TLV::TLV(unsigned char tag, unsigned char value) {
     _payload[2] = value;
 }
 
-/* for temp data, in celsius */
+/* make a TLV packet for single integer value, like temperature */
 TLV::TLV(unsigned char tag, int value) {
     _payload = new unsigned char[6];
     _payload[0] = tag;
     _payload[1] = 4;
 
-    /* parse the temp data 4-bits at a time */
+    /* parse the integer 4-bits at a time */
     _payload[2] = (value >> 12) & 15;
     _payload[3] = (value >> 8) & 15;
     _payload[4] = (value >> 4) & 15;
