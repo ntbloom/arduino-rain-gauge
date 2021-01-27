@@ -14,7 +14,7 @@ void SerialTLV::_send(int base) {
     for (unsigned char i = 0; i < _packet[1] + 2; i++) {
         Serial.print(_packet[i], base);
     }
-    Serial.println();
+    Serial.print("\n");
     Serial.end();
 }
 
