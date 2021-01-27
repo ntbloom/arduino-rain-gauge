@@ -86,8 +86,8 @@ void handleReset() {
 /* increment the rain counters */
 void handleRainGauge() {
     rainGauge->addCount();
-    updateLCD();
     rainGauge->sendTLVPacket();
+    updateLCD();
 }
 
 /* flag the LCD screen to update */
@@ -112,7 +112,7 @@ void handlePause() {
 /* take temperature measurement and update LCD */
 void handleMeasureTemp() {
     tempSensor->measure();
-    tempSensor->sendTemp();
+    tempSensor->sendTLVPacket();
     updateLCD();
 }
 

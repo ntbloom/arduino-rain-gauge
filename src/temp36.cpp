@@ -1,13 +1,11 @@
 #include "temp36.hpp"
 
 using namespace components;
-using tlv::TLV;
+using namespace tlv;
 
 Temp36::Temp36(int pin, float voltage) {
     _pin = pin;
     _voltage = voltage;
-    _tag = 1;
-    _length = 4;
 }
 
 /* calculate the temperature, store values in memory */
@@ -35,6 +33,11 @@ String Temp36::tempC() {
 }
 
 /* send message over serial port */
-void Temp36::sendTemp() {
-    // TODO: write tlv packet to serial port, delete when done
+void Temp36::sendTLVPacket() {
+    unsigned char* packet;
+    TLV* tlv = new TLV(_tag, _valC);
+    packet = tlv->encode();
+    SerialTLV* serialTLV = new SerialTLV(packet);
+    serialTLV->sendHex();
+    delete tlv;
 }
