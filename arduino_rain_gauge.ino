@@ -10,7 +10,6 @@
 #include "src/raingauge.hpp"
 #include "src/temp36.hpp"
 #include "src/timer.hpp"
-#include "src/tlv.hpp"
 
 /* pins for the physical setup*/
 #define RESET_PIN 6
@@ -58,28 +57,6 @@ void prepLCD() {
     lcd.print(0);
 }
 
-/* send TLV packet */
-void sendPacket(unsigned char* packet, int len) {
-    Serial.begin(9600);
-    for (int i = 0; i <= len; i++) {
-        Serial.print(packet[i], HEX);
-    }
-    Serial.println();
-    Serial.end();
-}
-
-/* send rain TLV packet */
-void sendRainTLVSerial() {
-    unsigned char* packet;
-    unsigned char t, v;
-    t = 0;
-    v = 1;
-    TLV* tlv = new TLV(t, v);
-    packet = tlv->encode();
-    sendPacket(packet, (int)packet[1]);
-    delete tlv;
-}
-
 /* update the LCD screen if there were any changes */
 void handleUpdateLCD() {
     if (!updateFlag) {
@@ -110,7 +87,7 @@ void handleReset() {
 void handleRainGauge() {
     rainGauge->addCount();
     updateLCD();
-    sendRainTLVSerial();
+    rainGauge->sendTLVPacket();
 }
 
 /* flag the LCD screen to update */

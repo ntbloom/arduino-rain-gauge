@@ -1,14 +1,16 @@
 #include "serial_tlv.hpp"
 
+#define BAUD 9600
+
 using namespace tlv;
 
-SerialTLV::SerialTLV(unsigned char* packet, int baud = 9600) {
+SerialTLV::SerialTLV(unsigned char* packet) {
     _packet = packet;
-    _baud = baud;
 }
 
-void SerialTLV::_print(int base) {
-    Serial.begin(_baud);
+/* base functionality for sending packets */
+void SerialTLV::_send(int base) {
+    Serial.begin(BAUD);
     for (unsigned char i = 0; i < _packet[1] + 2; i++) {
         Serial.print(_packet[i], base);
     }
@@ -17,6 +19,6 @@ void SerialTLV::_print(int base) {
 }
 
 /* send a TLV packet encoded in hex */
-void SerialTLV::hex() {
-    _print(HEX);
+void SerialTLV::sendHex() {
+    _send(HEX);
 }
