@@ -32,6 +32,7 @@
 using components::Button;
 using components::Raingauge;
 using components::Temp36;
+using tlv::SerialTLV;
 using tlv::TLV;
 using utilities::Timer;
 
