@@ -4,12 +4,15 @@
 #include "Arduino.h"
 #include "tlv.hpp"
 
+#define BAUD 9600
+
 namespace tlv {
 /* Abstract base class for sending TLV packets over a serial port */
 class ISerialTLV {
    protected:
-    virtual void _send(unsigned char* packet, int base, int baud = 9600) {
-        Serial.begin(baud);
+    int _baud = BAUD;
+    virtual void _send(unsigned char* packet, int base) {
+        Serial.begin(_baud);
         for (unsigned char i = 0; i < packet[1] + 2; i++) {
             Serial.print(packet[i], base);
         }
