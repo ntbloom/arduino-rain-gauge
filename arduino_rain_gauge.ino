@@ -8,6 +8,7 @@
 
 #include "src/button.hpp"
 #include "src/raingauge.hpp"
+#include "src/serial_tlv.hpp"
 #include "src/temp36.hpp"
 #include "src/timer.hpp"
 
@@ -32,8 +33,7 @@
 using components::Button;
 using components::Raingauge;
 using components::Temp36;
-using tlv::SerialTLV;
-using tlv::TLV;
+using tlv::StaticSerialTLV;
 using utilities::Timer;
 
 /* define variables */
@@ -47,8 +47,8 @@ Button* resetButton = new Button(RESET_PIN, 50, HIGH);
 Button* holdButton = new Button(PAUSE_PIN, 50, HIGH);
 Temp36* tempSensor = new Temp36(TEMP_PIN, TEMP_VOLTAGE);
 Timer* tempTimer = new Timer(TEMP_INTERVAL);
-
 Raingauge* rainGauge = new Raingauge(RAIN_PIN, 50, GAUGE_MET, GAUGE_STD);
+StaticSerialTLV* serialTLV = new StaticSerialTLV();
 
 /* set up the LCD screen */
 void prepLCD() {
@@ -81,13 +81,14 @@ void handleUpdateLCD() {
 /* reset rain counters to zero */
 void handleReset() {
     rainGauge->resetCount();
+    serialTLV->sendSoftReset();
     updateLCD();
 }
 
 /* increment the rain counters */
 void handleRainGauge() {
     rainGauge->addCount();
-    rainGauge->sendTLVPacket();
+    serialTLV->sendRainEvent();
     updateLCD();
 }
 
@@ -101,10 +102,14 @@ void updateLCD() {
 /* don't increment counters on click, display pause message on screen */
 void handlePause() {
     if (paused) {
+        // unpause the screen
         paused = false;
+        serialTLV->sendUnpause();
         updateLCD();
     } else {
+        // pause the screen
         paused = true;
+        serialTLV->sendPause();
         lcd.clear();
         lcd.print("PAUSED");
     }
@@ -121,6 +126,8 @@ void handleMeasureTemp() {
 void setup() {
     prepLCD();
     tempSensor->measure();
+    delay(1000);
+    serialTLV->sendHardReset();
 }
 
 void loop() {

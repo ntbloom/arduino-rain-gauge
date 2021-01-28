@@ -37,7 +37,7 @@ void Temp36::sendTLVPacket() {
     unsigned char* packet;
     TLV* tlv = new TLV(_tag, _valC);
     packet = tlv->encode();
-    SerialTLV* serialTLV = new SerialTLV(packet);
+    ComponentSerialTLV* serialTLV = new ComponentSerialTLV(packet);
     serialTLV->sendHex();
     delete tlv;
 }
