@@ -2,10 +2,7 @@
 
 using namespace utilities;
 
-/*
- * @params:
- *    unsigned long count: how long to wait, in seconds
- */
+/* how long to wait, in seconds */
 Timer::Timer(unsigned long interval) {
     _interval = interval;
 }
