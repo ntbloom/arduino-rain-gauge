@@ -9,8 +9,12 @@ Timer::Timer(unsigned long interval) {
 
 /* has that amount of time passed? */
 bool Timer::ready() {
-    if ((millis() - _count) > (_interval * 1000)) {
-        _count = millis();
+    _now = millis();
+    if (_count > _now) {  // millis() overflowed back to zero
+        _count = 0;
+    }
+    if ((_now - _count) > (_interval * 1000)) {
+        _count = _now;
         return true;
     }
     return false;
