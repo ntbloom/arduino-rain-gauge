@@ -4,6 +4,13 @@
  *
  */
 
+#define DEBUG
+
+#ifdef DEBUG
+#include "SEGGER_RTT.h"
+#include "SEGGER_SYSVIEW.h"
+#endif
+
 #include <Arduino.h>
 #include <LiquidCrystal.h>
 
@@ -16,7 +23,7 @@
 /* specify the board to be used */
 #include "boards/mkr1000.hpp"
 
-/* vendoring main from ArduinoCore-samd */
+/* vendored variables from ArduinoCore-samd */
 void initVariant() __attribute__((weak));
 void initVariant() {
 }
@@ -126,11 +133,11 @@ void handleMeasureTemp() {
  *
  */
 
-/* reuse `setup()` from arduino core */
-void setup() {
+/* drop-in replacement for `setup()` from arduino core */
+void customSetup() {
     prepLCD();
     tempSensor->measure();
-    delay(1000);
+    // delay(1000);  // is this necessary? taking out for now for faster dev cycles
     serialTLV->sendHardReset();
 }
 
@@ -152,15 +159,19 @@ void arduinoCoreSamdMain() {
     __libc_init_array();
     initVariant();
     delay(1);
-#if defined(USBCON)
+#ifdef USBCON
     USBDevice.init();
     USBDevice.attach();
 #endif
 }
 
 int main() {
+#ifdef DEBUG                // jlink specifics
+    SEGGER_SYSVIEW_Conf();  // configure and init SystemView
+#endif
+
     arduinoCoreSamdMain();
-    setup();
+    customSetup();
 
     /* the main loop */
     for (;;) {
