@@ -29,6 +29,10 @@ bool Button::isPressed() {
     }
 
     // debounce it
+    _now = millis();
+    if (_lastDebounce > _now) {  // millis() overflowed and went back to zero
+        _lastDebounce = 0;
+    }
     bool b = false;
     if ((millis() - _lastDebounce) > _msDelay) {
         b = true;

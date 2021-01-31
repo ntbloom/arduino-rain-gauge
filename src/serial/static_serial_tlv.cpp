@@ -1,6 +1,7 @@
-#include "serial_tlv.hpp"
+#include "static_serial_tlv.hpp"
 
-#define BAUD 9600
+#include "iserial_tlv.hpp"
+
 #define RAIN_COUNTER 0
 #define SOFT_RESET 2
 #define HARD_RESET 3
@@ -8,16 +9,6 @@
 #define UNPAUSE 5
 
 using namespace tlv;
-
-ComponentSerialTLV::ComponentSerialTLV(unsigned char* packet) {
-    _packet = packet;
-}
-
-/* send a TLV packet encoded in hex */
-void ComponentSerialTLV::sendHex() {
-    _send(_packet, HEX);
-}
-
 StaticSerialTLV::StaticSerialTLV() {
     _rain = _makeTLV(RAIN_COUNTER);
     _softReset = _makeTLV(SOFT_RESET);

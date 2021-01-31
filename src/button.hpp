@@ -9,7 +9,8 @@ class Button {
    private:
     int _pin;
     unsigned long _msDelay;
-    unsigned long _lastDebounce;
+    unsigned long _lastDebounce = 0;
+    unsigned long _now = 0;
     bool _high;
     bool _read = LOW;
 
