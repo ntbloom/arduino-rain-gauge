@@ -18,7 +18,7 @@
 /* hardware-specific constants */
 #define GAUGE_STD 0.11
 #define GAUGE_MET 0.2794
-#define TEMP_INTERVAL 3  // TODO: make this way shorter
+#define TEMP_INTERVAL 3  // TODO: fix for reasonable production level
 
 using components::Button;
 using components::Raingauge;
