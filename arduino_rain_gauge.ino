@@ -126,11 +126,11 @@ void handleMeasureTemp() {
  *
  */
 
-/* reuse `setup()` from arduino core */
-void setup() {
+/* drop-in replacement for `setup()` from arduino core */
+void customSetup() {
     prepLCD();
     tempSensor->measure();
-    delay(1000);
+    // delay(1000);  // is this necessary? taking out for now for faster dev cycles
     serialTLV->sendHardReset();
 }
 
@@ -160,7 +160,7 @@ void arduinoCoreSamdMain() {
 
 int main() {
     arduinoCoreSamdMain();
-    setup();
+    customSetup();
 
     /* the main loop */
     for (;;) {
