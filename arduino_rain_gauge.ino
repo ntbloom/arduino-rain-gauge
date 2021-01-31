@@ -4,6 +4,7 @@
  *
  */
 
+#include <Arduino.h>
 #include <LiquidCrystal.h>
 
 #include "src/button.hpp"
@@ -15,10 +16,17 @@
 /* specify the board to be used */
 #include "boards/mkr1000.hpp"
 
+/* vendoring main from ArduinoCore-samd */
+void initVariant() __attribute__((weak));
+void initVariant() {
+}
+extern USBDeviceClass USBDevice;
+extern "C" void __libc_init_array(void);
+
 /* hardware-specific constants */
 #define GAUGE_STD 0.11
 #define GAUGE_MET 0.2794
-#define TEMP_INTERVAL 3  // TODO: fix for reasonable production level
+#define TEMP_INTERVAL 10  // TODO: fix for reasonable production level
 
 using components::Button;
 using components::Raingauge;
@@ -112,7 +120,13 @@ void handleMeasureTemp() {
     updateLCD();
 }
 
-/*  Begin setup and main loop */
+/*
+ *
+ * write our own main() for better control
+ *
+ */
+
+/* reuse `setup()` from arduino core */
 void setup() {
     prepLCD();
     tempSensor->measure();
@@ -120,7 +134,8 @@ void setup() {
     serialTLV->sendHardReset();
 }
 
-void loop() {
+/* drop-in replacement for `loop()` in arduino code */
+void customLoop() {
     if (!paused) {
         if (resetButton->isPressed()) handleReset();
         if (rainGauge->isPressed()) handleRainGauge();
@@ -129,4 +144,28 @@ void loop() {
     if (holdButton->isPressed()) handlePause();
 
     handleUpdateLCD();
+}
+
+/* vendored setup for samd chip */
+void arduinoCoreSamdMain() {
+    init();
+    __libc_init_array();
+    initVariant();
+    delay(1);
+#if defined(USBCON)
+    USBDevice.init();
+    USBDevice.attach();
+#endif
+}
+
+int main() {
+    arduinoCoreSamdMain();
+    setup();
+
+    /* the main loop */
+    for (;;) {
+        customLoop();
+        if (serialEventRun) serialEventRun();
+    }
+    return 0;
 }
