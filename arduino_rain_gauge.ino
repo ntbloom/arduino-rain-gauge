@@ -119,7 +119,7 @@ void handleMeasureTemp() {
     tempSensor->measure();
     tempSensor->sendTLVPacket();
     updateLCD();
-    delay(50);
+    delay(100);
     digitalWrite(LED_GREEN_TEMP, LOW);
 }
 
