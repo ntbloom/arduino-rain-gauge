@@ -26,7 +26,7 @@ extern "C" void __libc_init_array(void);
 /* hardware-specific constants */
 #define GAUGE_STD 0.11
 #define GAUGE_MET 0.2794
-#define TEMP_INTERVAL 10  // TODO: fix for reasonable production level
+#define TEMP_INTERVAL 3  // TODO: fix for reasonable production level
 
 using components::Button;
 using components::Raingauge;
@@ -115,9 +115,12 @@ void handlePause() {
 
 /* take temperature measurement and update LCD */
 void handleMeasureTemp() {
+    digitalWrite(LED_GREEN_TEMP, HIGH);
     tempSensor->measure();
     tempSensor->sendTLVPacket();
     updateLCD();
+    delay(50);
+    digitalWrite(LED_GREEN_TEMP, LOW);
 }
 
 /*
@@ -128,6 +131,7 @@ void handleMeasureTemp() {
 
 /* drop-in replacement for `setup()` from arduino core */
 void customSetup() {
+    pinMode(LED_GREEN_TEMP, OUTPUT);
     prepLCD();
     tempSensor->measure();
     // delay(1000);  // is this necessary? taking out for now for faster dev cycles

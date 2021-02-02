@@ -13,6 +13,7 @@
 #define LCD_D5_PIN 3
 #define LCD_D6_PIN 4
 #define LCD_D7_PIN 5
+#define LED_GREEN_TEMP 10
 
 #endif
 
