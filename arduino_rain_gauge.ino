@@ -117,7 +117,8 @@ void handlePause() {
 void handleMeasureTemp() {
     digitalWrite(LED_GREEN_TEMP, HIGH);
     tempSensor->measure();
-    tempSensor->sendTLVPacket();
+    // tempSensor->sendTLVPacket();
+    serialTLV->sendRainEvent();
     updateLCD();
     delay(100);
     digitalWrite(LED_GREEN_TEMP, LOW);
