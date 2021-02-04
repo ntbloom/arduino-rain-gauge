@@ -3,6 +3,7 @@
  * Increment rain gauge counter on click, display on screen
  *
  */
+#define DEBUG false
 
 #include <Arduino.h>
 #include <LiquidCrystal.h>
@@ -117,8 +118,7 @@ void handlePause() {
 void handleMeasureTemp() {
     digitalWrite(LED_GREEN_TEMP, HIGH);
     tempSensor->measure();
-    // tempSensor->sendTLVPacket(); // put this back in after tests
-    serialTLV->sendRainEvent();  // make sure this event isn't corrupting memory either
+    tempSensor->sendTLVPacket();
     updateLCD();
     delay(100);
     digitalWrite(LED_GREEN_TEMP, LOW);
@@ -133,6 +133,7 @@ void handleMeasureTemp() {
 /* drop-in replacement for `setup()` from arduino core */
 void customSetup() {
     pinMode(LED_GREEN_TEMP, OUTPUT);
+    if (DEBUG) pinMode(DEBUG_TIMER_PIN, OUTPUT);
     prepLCD();
     tempSensor->measure();
     // delay(1000);  // is this necessary? taking out for now for faster dev cycles
@@ -169,7 +170,9 @@ int main() {
 
     /* the main loop */
     for (;;) {
+        if (DEBUG) digitalWrite(DEBUG_TIMER_PIN, HIGH);
         customLoop();
+        if (DEBUG) digitalWrite(DEBUG_TIMER_PIN, LOW);
         if (serialEventRun) serialEventRun();
     }
     return 0;

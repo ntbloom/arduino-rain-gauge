@@ -10,6 +10,7 @@ class TLV {
     TLV(unsigned char tag, unsigned char value);
     TLV(unsigned char tag, int value);
     unsigned char* encode();
+    void updateValue(int value);
     ~TLV();
 };
 }  // namespace tlv

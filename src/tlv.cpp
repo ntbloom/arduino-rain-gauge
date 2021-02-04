@@ -17,6 +17,11 @@ TLV::TLV(unsigned char tag, int value) {
     _payload[1] = 4;
 
     /* parse the integer 4-bits at a time */
+    updateValue(value);
+}
+
+/* update the value in the payload if it was an int */
+void TLV::updateValue(int value) {
     _payload[2] = (value >> 12) & 15;
     _payload[3] = (value >> 8) & 15;
     _payload[4] = (value >> 4) & 15;
