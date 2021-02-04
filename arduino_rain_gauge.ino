@@ -116,12 +116,9 @@ void handlePause() {
 
 /* take temperature measurement and update LCD */
 void handleMeasureTemp() {
-    digitalWrite(LED_GREEN_TEMP, HIGH);
     tempSensor->measure();
     tempSensor->sendTLVPacket();
     updateLCD();
-    delay(100);
-    digitalWrite(LED_GREEN_TEMP, LOW);
 }
 
 /*
@@ -132,7 +129,7 @@ void handleMeasureTemp() {
 
 /* drop-in replacement for `setup()` from arduino core */
 void customSetup() {
-    pinMode(LED_GREEN_TEMP, OUTPUT);
+    pinMode(LED_GREEN, OUTPUT);
     if (DEBUG) pinMode(DEBUG_TIMER_PIN, OUTPUT);
     prepLCD();
     tempSensor->measure();
@@ -148,7 +145,7 @@ void customLoop() {
         if (tempTimer->ready()) handleMeasureTemp();
     }
     if (holdButton->isPressed()) handlePause();
-
+    digitalWrite(LED_GREEN, (millis() / 1000) % 2);  // blink the LED every second
     handleUpdateLCD();
 }
 

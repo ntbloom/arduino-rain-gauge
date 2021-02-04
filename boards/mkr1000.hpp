@@ -14,7 +14,7 @@
 #define PAUSE_PIN 8
 #define DEBUG_TIMER_PIN 7  // time the loop using a scope
 #define RAIN_PIN 9
-#define LED_GREEN_TEMP 10
+#define LED_GREEN 10
 
 #endif
 
