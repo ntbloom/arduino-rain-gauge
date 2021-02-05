@@ -9,7 +9,7 @@ Temp36::Temp36(int pin, float voltage) {
     measure();
 
     // allocate memory for the TLV packet
-    _tlv = new TLV(_tag, _valC);
+    _serialTLV = new ComponentSerialTLV(_tag, _valC);
 }
 
 /* calculate the temperature, store values in memory */
@@ -39,7 +39,6 @@ String Temp36::tempC() {
 
 /* send message over serial port */
 void Temp36::sendTLVPacket() {
-    _tlv->updateValue(_valC);
-    ComponentSerialTLV* serialTLV = new ComponentSerialTLV(_tlv->encode());
-    serialTLV->sendHex();
+    _serialTLV->update(_valC);
+    _serialTLV->sendHex();
 }
