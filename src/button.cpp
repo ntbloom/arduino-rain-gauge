@@ -11,7 +11,7 @@ Button::Button(int pin, unsigned long msDelay, bool high) {
     pinMode(_pin, INPUT);
 }
 
-/* is the button pressed and valid (not bouncing) */
+/* is the button pressed (with debouncing) */
 bool Button::isPressed() {
     // check if pin fired
     _read = digitalRead(_pin);
@@ -39,4 +39,9 @@ bool Button::isPressed() {
     }
     _lastDebounce = millis();
     return b;
+}
+
+/* is switch currently open (don't care about bouncing) */
+bool Button::isOpen() {
+    return digitalRead(_pin) == _high;
 }

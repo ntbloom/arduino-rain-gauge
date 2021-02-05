@@ -14,13 +14,15 @@ Temp36::Temp36(int pin, float voltage) {
 
 /* calculate the temperature, store values in memory */
 void Temp36::measure() {
+    /* note, values could get distorted based on voltage flow around the board
+     * put logic into scripts for __when__ to measure to make sure values are accurate
+     */
     analogReadResolution(12);
     int reading = analogRead(_pin);
     float intermed = reading * _voltage / 4096;
     float tempC = (intermed - 0.5) * 100;  // 10mv per degree with 500 mV offset
     float tempF = (tempC * 9.0 / 5.0) + 32.0;
 
-    // TODO: put in logic for ignoring values that are obviously wrong, like 30F swings
     _valF = (int)tempF;
     _valC = (int)tempC;
     _tempF = String(_valF) + "F";

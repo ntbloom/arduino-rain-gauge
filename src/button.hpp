@@ -16,6 +16,7 @@ class Button {
 
    public:
     Button(int pin, unsigned long msDelay, bool high);
+    bool isOpen();
     bool isPressed();
 };
 };  // namespace components

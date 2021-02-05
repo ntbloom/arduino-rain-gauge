@@ -116,6 +116,10 @@ void handlePause() {
 
 /* take temperature measurement and update LCD */
 void handleMeasureTemp() {
+    // don't measure if any buttons are open which could distort measurement
+    while (resetButton->isOpen() || holdButton->isOpen() || rainGauge->isOpen()) {
+        return;
+    }
     tempSensor->measure();
     tempSensor->sendTLVPacket();
     updateLCD();
@@ -132,7 +136,8 @@ void customSetup() {
     pinMode(LED_GREEN, OUTPUT);
     if (DEBUG) pinMode(DEBUG_TIMER_PIN, OUTPUT);
     prepLCD();
-    tempSensor->measure();
+    tempSensor->measure();  // doesn't matter if the reading is incorrect, we just need a reference
+                            // point for memory allocation
     // delay(1000);  // is this necessary? taking out for now for faster dev cycles
     serialTLV->sendHardReset();
 }
