@@ -4,7 +4,7 @@
 #include "../tlv.hpp"
 #include "Arduino.h"
 
-#define BAUD 9600
+#define BAUD 115200
 #define SERIALFMT HEX
 
 namespace tlv {
