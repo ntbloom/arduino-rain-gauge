@@ -133,12 +133,12 @@ void handleMeasureTemp() {
 
 /* drop-in replacement for `setup()` from arduino core */
 void customSetup() {
+    delay(1000);  // wait for serial connection to pick up first
     pinMode(LED_GREEN, OUTPUT);
     if (DEBUG) pinMode(DEBUG_TIMER_PIN, OUTPUT);
     prepLCD();
     tempSensor->measure();  // doesn't matter if the reading is incorrect, we just need a reference
                             // point for memory allocation
-    // delay(1000);  // is this necessary? taking out for now for faster dev cycles
     serialTLV->sendHardReset();
 }
 
