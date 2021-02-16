@@ -5,6 +5,7 @@
 #include "Arduino.h"
 
 #define BAUD 9600
+#define SERIALFMT HEX
 
 namespace tlv {
 /* Abstract base class for sending TLV packets over a serial port */

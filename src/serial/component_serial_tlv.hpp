@@ -12,7 +12,7 @@ class ComponentSerialTLV : public ISerialTLV {
    public:
     ComponentSerialTLV(unsigned char tag, int value);
     void update(int value);
-    void sendHex();
+    void sendPacket();
 };
 };  // namespace tlv
 #endif

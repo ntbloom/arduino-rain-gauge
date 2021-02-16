@@ -26,27 +26,27 @@ unsigned char* StaticSerialTLV::_makeTLV(unsigned char tag) {
 
 /* indicates a rain gauge tipper was incremented */
 void StaticSerialTLV::sendRainEvent() {
-    _send(_rain, HEX);
+    _send(_rain, SERIALFMT);
 }
 
 /* indicate soft reset (rain counter reset) just happened */
 void StaticSerialTLV::sendSoftReset() {
-    _send(_softReset, HEX);
+    _send(_softReset, SERIALFMT);
 }
 
 /* send right after boot, indicating a hard reset happened */
 void StaticSerialTLV::sendHardReset() {
-    _send(_hardReset, HEX);
+    _send(_hardReset, SERIALFMT);
 }
 
 /* send when sensor is paused */
 void StaticSerialTLV::sendPause() {
-    _send(_pause, HEX);
+    _send(_pause, SERIALFMT);
 }
 
 /* send when sensor is unpaused */
 void StaticSerialTLV::sendUnpause() {
-    _send(_unpause, HEX);
+    _send(_unpause, SERIALFMT);
 }
 
 StaticSerialTLV::~StaticSerialTLV() {

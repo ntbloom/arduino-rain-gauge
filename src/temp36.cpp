@@ -42,5 +42,5 @@ String Temp36::tempC() {
 /* send message over serial port */
 void Temp36::sendTLVPacket() {
     _serialTLV->update(_valC);
-    _serialTLV->sendHex();
+    _serialTLV->sendPacket();
 }

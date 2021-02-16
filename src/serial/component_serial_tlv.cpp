@@ -14,8 +14,8 @@ void ComponentSerialTLV::update(int value) {
     _tlv->updateValue(value);
 }
 
-/* send a TLV packet encoded in hex */
-void ComponentSerialTLV::sendHex() {
-    _send(_tlv->encode(), HEX);
+/* send a TLV packet encoded in SERIALFMT*/
+void ComponentSerialTLV::sendPacket() {
+    _send(_tlv->encode(), SERIALFMT);
 }
 
