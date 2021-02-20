@@ -2,6 +2,8 @@
 
 using namespace tlv;
 
+#define MAXINT 15  // largest hex value
+
 /* make a TLV packet for simple messages */
 TLV::TLV(unsigned char tag, unsigned char value) {
     _payload = new unsigned char[3];
@@ -22,10 +24,10 @@ TLV::TLV(unsigned char tag, int value) {
 
 /* update the value in the payload if it was an int */
 void TLV::updateValue(int value) {
-    _payload[2] = (value >> 12) & 15;
-    _payload[3] = (value >> 8) & 15;
-    _payload[4] = (value >> 4) & 15;
-    _payload[5] = value & 15;
+    _payload[2] = (value >> 12) & MAXINT;
+    _payload[3] = (value >> 8) & MAXINT;
+    _payload[4] = (value >> 4) & MAXINT;
+    _payload[5] = value & MAXINT;
 }
 
 /* encode payload as TLV byte array */
