@@ -150,7 +150,7 @@ void customLoop() {
         if (tempTimer->ready()) handleMeasureTemp();
     }
     if (holdButton->isPressed()) handlePause();
-    digitalWrite(LED_GREEN, (millis() / 1000) % 2);  // blink the LED every second
+    //digitalWrite(LED_GREEN, (millis() / 1000) % 2);  // blink the LED every second
     handleUpdateLCD();
 }
 
