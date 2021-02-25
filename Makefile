@@ -18,7 +18,7 @@ VFLAGS += --track-origins=yes
 
 CLI  = arduino-cli
 FQBN = arduino:samd:mkr1000
-PORT = /dev/ttyACM99 # to be changed later, perhaps?
+PORT = /dev/ttyACM99
 INO  = arduino_rain_gauge.ino
 WARN = --warnings all
 BINDIR = bin
