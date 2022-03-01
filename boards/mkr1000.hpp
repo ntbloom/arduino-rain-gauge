@@ -16,6 +16,7 @@
 #define RAIN_PIN 9
 #define LED_GREEN 10
 #define LED_RED 13
+#define LED_BLUE 14
 
 #endif
 

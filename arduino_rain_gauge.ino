@@ -53,6 +53,7 @@ StaticSerialTLV* serialTLV = new StaticSerialTLV();
 void prepLED() {
     pinMode(LED_GREEN, OUTPUT);
     pinMode(LED_RED, OUTPUT);
+    pinMode(LED_BLUE, OUTPUT);
 }
 
 /* set up the LCD screen */
@@ -124,6 +125,7 @@ void handlePause() {
 
 /* take temperature measurement and update LCD */
 void handleMeasureTemp() {
+    digitalWrite(LED_BLUE, 1);
     // don't measure if any buttons are open which could distort measurement
     while (resetButton->isOpen() || holdButton->isOpen() || rainGauge->isOpen()) {
         return;
@@ -131,6 +133,7 @@ void handleMeasureTemp() {
     tempSensor->measure();
     tempSensor->sendTLVPacket();
     updateLCD();
+    digitalWrite(LED_BLUE, 0);
 }
 
 /*
@@ -158,7 +161,7 @@ void customLoop() {
         if (tempTimer->ready()) handleMeasureTemp();
     }
     if (holdButton->isPressed()) handlePause();
-    digitalWrite(LED_GREEN, (millis() / 1000) % 2);  // blink the LED every second
+    digitalWrite(LED_GREEN, (millis() / 5000) % 2);  // blink the LED every 5 seconds
     handleUpdateLCD();
 }
 
