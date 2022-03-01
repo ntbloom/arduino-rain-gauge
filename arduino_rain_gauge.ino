@@ -16,7 +16,7 @@
 #include "src/timer.hpp"
 
 /* specify the board to be used */
-#include "boards/mkr1000.hpp"
+#include "src/boards/mkr1000.hpp"
 
 /* vendoring main from ArduinoCore-samd */
 void initVariant() __attribute__((weak));
@@ -43,7 +43,6 @@ const char* holdMsg = "PAUSED";
 
 /* initialize components */
 LiquidCrystal lcd(LCD_RS_PIN, LCD_EN_PIN, LCD_D4_PIN, LCD_D5_PIN, LCD_D6_PIN, LCD_D7_PIN);
-Button* resetButton = new Button(RESET_PIN, 50, HIGH);
 Button* holdButton = new Button(PAUSE_PIN, 50, HIGH);
 Temp36* tempSensor = new Temp36(TEMP_PIN, TEMP_VOLTAGE);
 Timer* tempTimer = new Timer(TEMP_INTERVAL);
@@ -85,13 +84,6 @@ void handleUpdateLCD() {
     }
 }
 
-/* reset rain counters to zero */
-void handleReset() {
-    rainGauge->resetCount();
-    serialTLV->sendSoftReset();
-    updateLCD();
-}
-
 /* increment the rain counters */
 void handleRainGauge() {
     rainGauge->addCount();
@@ -128,7 +120,7 @@ void handlePause() {
 void handleMeasureTemp() {
     digitalWrite(LED_BLUE, 1);
     // don't measure if any buttons are open which could distort measurement
-    while (resetButton->isOpen() || holdButton->isOpen() || rainGauge->isOpen()) {
+    while (holdButton->isOpen() || rainGauge->isOpen()) {
         return;
     }
     tempSensor->measure();
@@ -157,7 +149,6 @@ void customSetup() {
 /* drop-in replacement for `loop()` in arduino code */
 void customLoop() {
     if (!paused) {
-        if (resetButton->isPressed()) handleReset();
         if (rainGauge->isPressed()) handleRainGauge();
         if (tempTimer->ready()) handleMeasureTemp();
     }
