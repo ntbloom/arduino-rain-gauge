@@ -43,3 +43,5 @@ clean:
 	rm $(BINDIR)/*.out
 
 all: build upload
+
+.PHONY: build test

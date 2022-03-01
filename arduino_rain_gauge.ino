@@ -49,6 +49,12 @@ Timer* tempTimer = new Timer(TEMP_INTERVAL);
 Raingauge* rainGauge = new Raingauge(RAIN_PIN, 50, GAUGE_MET, GAUGE_STD);
 StaticSerialTLV* serialTLV = new StaticSerialTLV();
 
+/* set up LEDs */
+void prepLED() {
+    pinMode(LED_GREEN, OUTPUT);
+    pinMode(LED_RED, OUTPUT);
+}
+
 /* set up the LCD screen */
 void prepLCD() {
     analogWrite(A3, 0);
@@ -105,11 +111,13 @@ void handlePause() {
         paused = false;
         serialTLV->sendUnpause();
         updateLCD();
+        digitalWrite(LED_RED, 0);
     } else {
         // pause the screen
         paused = true;
         serialTLV->sendPause();
         lcd.clear();
+        digitalWrite(LED_RED, 1);
         lcd.print("PAUSED");
     }
 }
@@ -134,7 +142,7 @@ void handleMeasureTemp() {
 /* drop-in replacement for `setup()` from arduino core */
 void customSetup() {
     delay(1000);  // wait for serial connection to pick up first
-    pinMode(LED_GREEN, OUTPUT);
+    prepLED();
     if (DEBUG) pinMode(DEBUG_TIMER_PIN, OUTPUT);
     prepLCD();
     tempSensor->measure();  // doesn't matter if the reading is incorrect, we just need a reference
