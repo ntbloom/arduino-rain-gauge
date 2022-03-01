@@ -3,6 +3,7 @@
  * Increment rain gauge counter on click, display on screen
  *
  */
+
 #define DEBUG false
 
 #include <Arduino.h>
